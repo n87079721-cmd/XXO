@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remote Job Opportunities</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #333;
+        }
+        header {
+            background: #0caa41;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px 0;
+        }
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .jobs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .job-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .job-card h3 {
+            margin-top: 0;
+            color: #0caa41;
+        }
+        .apply-section {
+            background: white;
+            padding: 30px;
+            margin-top: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        form {
+            display: grid;
+            gap: 15px;
+        }
+        input, select, textarea, button {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #0caa41;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #089c39;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Remote Job Opportunities</h1>
+    <p>Work from anywhere. Flexible hours. Competitive pay.</p>
+</header>
+
+<div class="container">
+    <div class="intro">
+        <h2>Current Open Positions</h2>
+        <p>Apply today and our hiring team will contact qualified candidates within 3–5 business days.</p>
+    </div>
+
+    <div class="jobs">
+        <div class="job-card"><h3>Customer Service Representative</h3><p>Email and chat support for customers.</p></div>
+        <div class="job-card"><h3>Data Entry Specialist</h3><p>Input and maintain company data accurately.</p></div>
+        <div class="job-card"><h3>AI Automation Specialist</h3><p>Build and manage AI-driven workflows.</p></div>
+        <div class="job-card"><h3>Digital Analyst</h3><p>Analyze campaigns and website performance.</p></div>
+        <div class="job-card"><h3>Virtual Assistant</h3><p>Support teams with administrative tasks.</p></div>
+        <div class="job-card"><h3>Social Media Manager</h3><p>Create and manage social media content.</p></div>
+        <div class="job-card"><h3>Online Chat Support Agent</h3><p>Assist customers in real time.</p></div>
+        <div class="job-card"><h3>Content Writer</h3><p>Write blogs and marketing content.</p></div>
+        <div class="job-card"><h3>Remote Sales Representative</h3><p>Engage leads and close deals.</p></div>
+        <div class="job-card"><h3>E-commerce Listing Specialist</h3><p>Manage product listings and descriptions.</p></div>
+    </div>
+
+    <div class="apply-section">
+        <h2>Apply Now</h2>
+        <form id="jobForm">
+            <input type="text" name="fullName" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="tel" name="phone" placeholder="Phone Number" required>
+
+            <select name="position" required>
+                <option value="">Select Position</option>
+                <option>Customer Service Representative</option>
+                <option>Data Entry Specialist</option>
+                <option>AI Automation Specialist</option>
+                <option>Digital Analyst</option>
+                <option>Virtual Assistant</option>
+                <option>Social Media Manager</option>
+                <option>Online Chat Support Agent</option>
+                <option>Content Writer</option>
+                <option>Remote Sales Representative</option>
+                <option>E-commerce Listing Specialist</option>
+            </select>
+
+            <textarea name="message" placeholder="Short Message (Optional)"></textarea>
+
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>©️ 2026 Remote Job Opportunities. All rights reserved.</p>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBzAmfkNZ5YLxShLoNlUECpWelzkqQlkpA",
+  authDomain: "remote-job-site-1.firebaseapp.com",
+  projectId: "remote-job-site-1",
+  storageBucket: "remote-job-site-1.firebasestorage.app",
+  messagingSenderId: "164672828795",
+  appId: "1:164672828795:web:a734258d7af76a012579de"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const form = document.getElementById("jobForm");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(form);
+
+  const fullName = formData.get("fullName");
+  const email = formData.get("email");
+  const phone = formData.get("phone");
+  const position = formData.get("position");
+  const message = formData.get("message");
+
+  try {
+    await addDoc(collection(db, "applications"), {
+      fullName,
+      email,
+      phone,
+      position,
+      message,
+      createdAt: new Date()
+    });
+
+    alert("Application submitted successfully!");
+    form.reset();
+  } catch (error) {
+    alert("Error submitting application.");
+    console.error(error);
+  }
+});
+</script>
+
+</body>
+</html>
