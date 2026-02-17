@@ -8,11 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: 'Inter', sans-serif;
@@ -26,15 +22,8 @@ header {
   color: white;
 }
 
-header h1 {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-header p {
-  font-size: 14px;
-  opacity: 0.9;
-}
+header h1 { font-size: 24px; font-weight: 700; }
+header p { font-size: 14px; opacity: 0.9; }
 
 .container {
   max-width: 1100px;
@@ -48,10 +37,7 @@ header p {
   margin-bottom: 20px;
 }
 
-.jobs {
-  display: grid;
-  gap: 16px;
-}
+.jobs { display: grid; gap: 16px; }
 
 .job-card {
   background: white;
@@ -67,16 +53,8 @@ header p {
   box-shadow: 0 6px 14px rgba(0,0,0,0.08);
 }
 
-.job-card h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.job-card p {
-  font-size: 14px;
-  color: #4b5563;
-}
+.job-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.job-card p { font-size: 14px; color: #4b5563; }
 
 .apply-section {
   background: white;
@@ -86,15 +64,9 @@ header p {
   box-shadow: 0 4px 16px rgba(0,0,0,0.06);
 }
 
-.apply-section h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
+.apply-section h2 { font-size: 20px; margin-bottom: 20px; }
 
-form {
-  display: grid;
-  gap: 16px;
-}
+form { display: grid; gap: 16px; }
 
 input, select, textarea {
   padding: 14px;
@@ -109,10 +81,7 @@ input:focus, select:focus, textarea:focus {
   border: 1px solid #0caa41;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
+textarea { resize: vertical; min-height: 100px; }
 
 button {
   background: #0caa41;
@@ -126,9 +95,7 @@ button {
   transition: background 0.2s ease;
 }
 
-button:hover {
-  background: #089c39;
-}
+button:hover { background: #089c39; }
 
 footer {
   text-align: center;
@@ -167,18 +134,19 @@ footer {
   <div class="apply-section">
     <h2>Apply Now</h2>
 
-    <!-- NETLIFY FORMS: no action needed -->
+    <!-- NETLIFY FORMS -->
     <form
       name="job-application"
       method="POST"
       enctype="multipart/form-data"
       data-netlify="true"
       netlify-honeypot="bot-field"
+      action="/thanks.html"
     >
-      <!-- Required hidden input -->
+      <!-- required -->
       <input type="hidden" name="form-name" value="job-application">
 
-      <!-- Honeypot (spam protection) -->
+      <!-- honeypot -->
       <p style="display:none;">
         <label>Don’t fill this out: <input name="bot-field"></label>
       </p>
@@ -203,7 +171,6 @@ footer {
 
       <textarea name="message" placeholder="Short Message (Optional)"></textarea>
 
-      <!-- File upload (Netlify will store it with the submission) -->
       <input type="file" name="resume" accept=".pdf,.doc,.docx,.txt" required>
 
       <button type="submit">Submit Application</button>
