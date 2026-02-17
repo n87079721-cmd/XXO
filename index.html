@@ -1,641 +1,598 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Remote Job Opportunities</title>
+  <meta charset="UTF-8" />
+  <title>Remote Job Opportunities</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
-<style>
-:root{
-  --bg:#f3f4f6;
-  --card:#ffffff;
-  --text:#111827;
-  --muted:#6b7280;
-  --border:#e5e7eb;
-  --brand:#0caa41;
-  --brand2:#089c39;
-  --shadow:0 10px 30px rgba(0,0,0,0.08);
-  --shadow2:0 6px 16px rgba(0,0,0,0.10);
-}
+  <style>
+    :root{
+      /* Theme */
+      --brand: #0caa41;
+      --brand-2: #089c39;
+      --ink: #0f172a;
+      --muted: #475569;
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --border: #e5e7eb;
 
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+      /* New: polished “Glassdoor-like” theme */
+      --header-grad-1: #0caa41;
+      --header-grad-2: #0a8f36;
 
-a{color:inherit;text-decoration:none;}
-.container{max-width:1140px;margin:0 auto;padding:0 16px;}
+      --shadow-sm: 0 2px 10px rgba(2, 6, 23, 0.06);
+      --shadow-md: 0 10px 30px rgba(2, 6, 23, 0.10);
 
-.topbar{
-  background:#0b1220;
-  color:#fff;
-  position:sticky;
-  top:0;
-  z-index:20;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
+      --radius: 14px;
+      --radius-sm: 10px;
+    }
 
-.topbar-inner{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:14px 0;
-}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:170px;
-}
-.brand-badge{
-  width:34px;
-  height:34px;
-  border-radius:10px;
-  background:linear-gradient(135deg,var(--brand),#19d66b);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  color:#05210f;
-}
-.brand-name{
-  font-weight:800;
-  letter-spacing:0.2px;
-}
-.brand-sub{
-  font-size:12px;
-  color:rgba(255,255,255,0.7);
-  margin-top:2px;
-}
+    body{
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(900px 300px at 20% 0%, rgba(12,170,65,0.10), transparent 60%),
+                  radial-gradient(900px 300px at 80% 0%, rgba(12,170,65,0.07), transparent 60%),
+                  var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
 
-.nav{
-  display:flex;
-  gap:14px;
-  align-items:center;
-  margin-left:10px;
-  flex-wrap:wrap;
-}
-.nav a{
-  font-size:14px;
-  color:rgba(255,255,255,0.86);
-  padding:8px 10px;
-  border-radius:10px;
-}
-.nav a:hover{
-  background:rgba(255,255,255,0.08);
-  color:#fff;
-}
+    a{ color: inherit; text-decoration: none; }
 
-.nav-cta{
-  margin-left:auto;
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-.btn{
-  border:none;
-  cursor:pointer;
-  border-radius:12px;
-  font-weight:700;
-  font-size:14px;
-  padding:10px 12px;
-}
-.btn-outline{
-  background:transparent;
-  color:#fff;
-  border:1px solid rgba(255,255,255,0.22);
-}
-.btn-outline:hover{background:rgba(255,255,255,0.08);}
-.btn-solid{
-  background:var(--brand);
-  color:#fff;
-}
-.btn-solid:hover{background:var(--brand2);}
+    /* Header */
+    header{
+      background: linear-gradient(135deg, var(--header-grad-1), var(--header-grad-2));
+      color: #fff;
+      padding: 22px 22px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.10);
+    }
 
-.hero{
-  background:
-    radial-gradient(900px 320px at 10% 10%, rgba(12,170,65,0.35), transparent 60%),
-    radial-gradient(700px 300px at 90% 20%, rgba(25,214,107,0.25), transparent 60%),
-    linear-gradient(180deg, #0b1220 0%, #0b1220 55%, var(--bg) 55%);
-  padding:28px 0 24px;
-}
+    .header-inner{
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-.hero-card{
-  margin-top:14px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:18px;
-  padding:22px;
-  color:#fff;
-}
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+    }
 
-.hero h1{
-  font-size:28px;
-  line-height:1.15;
-  margin-bottom:8px;
-}
-.hero p{
-  font-size:14px;
-  color:rgba(255,255,255,0.78);
-  max-width:720px;
-}
+    /* Logo placeholder (replace src with your logo) */
+    .brand-logo{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.14);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.24);
+    }
 
-.search-row{
-  margin-top:16px;
-  display:grid;
-  grid-template-columns: 1.2fr 1fr auto;
-  gap:10px;
-}
-.search-row input, .search-row select{
-  width:100%;
-  padding:12px 12px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.16);
-  background:rgba(255,255,255,0.08);
-  color:#fff;
-  font-size:14px;
-  outline:none;
-}
-.search-row input::placeholder{color:rgba(255,255,255,0.6);}
-.search-row select{appearance:none;}
-.search-row button{
-  padding:12px 16px;
-  border-radius:12px;
-  background:var(--brand);
-  color:#fff;
-  border:none;
-  font-weight:800;
-  cursor:pointer;
-}
-.search-row button:hover{background:var(--brand2);}
+    .brand-logo img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-.main{
-  padding:18px 0 60px;
-}
+    /* Fallback logo if you do not have an image yet */
+    .brand-mark{
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      font-size: 16px;
+    }
 
-.section-title{
-  font-size:18px;
-  font-weight:800;
-  margin:18px 0 12px;
-}
+    .brand-text h1{
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 2px;
+    }
 
-.grid{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:14px;
-}
+    .brand-text p{
+      font-size: 12.5px;
+      opacity: 0.92;
+    }
 
-@media (min-width: 860px){
-  .grid{grid-template-columns: 1.2fr 0.8fr;}
-}
+    .header-cta{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
 
-.jobs{
-  display:grid;
-  gap:12px;
-}
+    .pill{
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
 
-.job-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:16px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.04);
-  padding:16px;
-  transition:transform 0.15s ease, box-shadow 0.15s ease;
-}
+    .pill-dot{
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #d1fae5;
+      box-shadow: 0 0 0 4px rgba(209,250,229,0.20);
+    }
 
-.job-card:hover{
-  transform:translateY(-2px);
-  box-shadow:var(--shadow2);
-}
+    .btn-header{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #fff;
+      color: #064e1f;
+      font-weight: 800;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+    }
 
-.job-top{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:flex-start;
-}
+    .btn-header:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(0,0,0,0.14);
+    }
 
-.job-title{
-  font-size:16px;
-  font-weight:800;
-  margin-bottom:6px;
-}
-.job-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:10px;
-}
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:#f9fafb;
-}
+    /* Page */
+    .container{
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding: 0 20px 60px;
+    }
 
-.job-desc{
-  color:#374151;
-  font-size:13px;
-  line-height:1.55;
-}
+    .hero{
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.95));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 18px;
+      align-items: center;
+      margin-top: 22px;
+    }
 
-.job-actions{
-  margin-top:12px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
+    .hero h2{
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
 
-.small-btn{
-  padding:10px 12px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:#fff;
-  font-weight:800;
-  cursor:pointer;
-  font-size:13px;
-}
-.small-btn:hover{box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-.small-btn.primary{
-  border:none;
-  background:var(--brand);
-  color:#fff;
-}
-.small-btn.primary:hover{background:var(--brand2);}
+    .hero p{
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-.side{
-  display:grid;
-  gap:12px;
-}
-.panel{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:16px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.04);
-}
-.panel h3{
-  font-size:14px;
-  font-weight:900;
-  margin-bottom:8px;
-}
-.panel p, .panel li{
-  font-size:13px;
-  color:#374151;
-  line-height:1.55;
-}
-.panel ul{padding-left:18px;margin-top:6px;}
+    .hero-cards{
+      display: grid;
+      gap: 10px;
+    }
 
-.apply-section{
-  margin-top:18px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  box-shadow:var(--shadow);
-  padding:18px;
-}
-.apply-section h2{
-  font-size:18px;
-  font-weight:900;
-  margin-bottom:10px;
-}
-.apply-section .note{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:12px;
-}
+    .mini-card{
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(2,6,23,0.05);
+    }
 
-form{
-  display:grid;
-  gap:12px;
-}
+    .mini-card strong{
+      font-size: 13px;
+    }
 
-input,select,textarea{
-  padding:12px 12px;
-  border-radius:12px;
-  border:1px solid #d1d5db;
-  font-size:14px;
-  background:#fff;
-}
-input:focus,select:focus,textarea:focus{
-  outline:none;
-  border:1px solid var(--brand);
-}
+    .mini-card span{
+      font-size: 12px;
+      color: var(--muted);
+    }
 
-textarea{
-  min-height:110px;
-  resize:vertical;
-}
+    .section-title{
+      font-size: 18px;
+      font-weight: 900;
+      margin: 28px 0 14px;
+      letter-spacing: -0.01em;
+    }
 
-label{
-  font-size:13px;
-  font-weight:800;
-  color:#374151;
-}
+    /* Jobs */
+    .jobs{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
 
-.small-note{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:-6px;
-}
+    @media (max-width: 780px){
+      .hero{ grid-template-columns: 1fr; }
+      .jobs{ grid-template-columns: 1fr; }
+      .header-cta{ display: none; }
+    }
 
-footer{
-  text-align:center;
-  padding:26px 12px;
-  font-size:12px;
-  color:var(--muted);
-}
+    .job-card{
+      background: var(--card);
+      padding: 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      border-left: 6px solid var(--brand);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-@media (max-width: 700px){
-  .topbar-inner{flex-wrap:wrap;}
-  .brand{min-width:unset;}
-  .nav-cta{margin-left:0;width:100%;}
-  .search-row{grid-template-columns:1fr; }
-}
-</style>
+    .job-card:before{
+      content: "";
+      position: absolute;
+      inset: -60px -60px auto auto;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle at 30% 30%, rgba(12,170,65,0.18), transparent 60%);
+      transform: rotate(20deg);
+      pointer-events: none;
+    }
+
+    .job-card:hover{
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(12,170,65,0.35);
+    }
+
+    .job-top{
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .job-card h3{
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 2px;
+      letter-spacing: -0.01em;
+    }
+
+    .job-card p{
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .tag{
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(12,170,65,0.25);
+      background: rgba(12,170,65,0.08);
+      color: #065f2a;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Apply section */
+    .apply-section{
+      background: rgba(255,255,255,0.95);
+      border: 1px solid var(--border);
+      padding: 22px;
+      margin-top: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .apply-head{
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .apply-section h2{
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+
+    .apply-section small{
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    form{
+      display: grid;
+      gap: 12px;
+    }
+
+    .grid-2{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px){
+      .grid-2{ grid-template-columns: 1fr; }
+    }
+
+    input, select, textarea{
+      padding: 13px 14px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+      background: #fff;
+    }
+
+    input:focus, select:focus, textarea:focus{
+      outline: none;
+      border: 1px solid rgba(12,170,65,0.7);
+      box-shadow: 0 0 0 4px rgba(12,170,65,0.14);
+    }
+
+    textarea{ resize: vertical; min-height: 110px; }
+
+    .file-wrap{
+      display: grid;
+      gap: 8px;
+    }
+
+    .file-wrap label{
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .hint{
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: -6px;
+    }
+
+    button{
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: white;
+      padding: 13px 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+      box-shadow: 0 10px 20px rgba(12,170,65,0.22);
+    }
+
+    button:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(12,170,65,0.28);
+    }
+
+    footer{
+      text-align: center;
+      padding: 26px 10px 40px;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .footer-line{
+      margin-top: 10px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="topbar">
-  <div class="container">
-    <div class="topbar-inner">
-      <a class="brand" href="#top" aria-label="Home">
-        <div class="brand-badge">RJ</div>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-logo" aria-label="Logo">
+        <!-- Replace `assets/logo.png` with your logo path.
+             If you do not have a logo yet, keep the fallback <div class="brand-mark">RJ</div> -->
+        <!-- <img src="assets/logo.png" alt="Company Logo" /> -->
+        <div class="brand-mark">RJ</div>
+      </div>
+      <div class="brand-text">
+        <h1>Remote Job Opportunities</h1>
+        <p>Work from anywhere. Flexible hours. Competitive pay.</p>
+      </div>
+    </div>
+
+    <div class="header-cta">
+      <div class="pill"><span class="pill-dot"></span> Hiring now</div>
+      <a class="btn-header" href="#apply">Apply</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="hero" aria-label="Hero">
+    <div>
+      <h2>Find your next remote role</h2>
+      <p>
+        Browse open positions below and submit your application in minutes.
+        We review applications daily and reach out if there is a match.
+      </p>
+    </div>
+    <div class="hero-cards" aria-label="Highlights">
+      <div class="mini-card">
+        <strong>Location</strong>
+        <span>Remote worldwide</span>
+      </div>
+      <div class="mini-card">
+        <strong>Schedule</strong>
+        <span>Flexible hours</span>
+      </div>
+      <div class="mini-card">
+        <strong>Pay</strong>
+        <span>Competitive</span>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="section-title">Open Positions</h2>
+
+  <div class="jobs">
+    <div class="job-card">
+      <div class="job-top">
         <div>
-          <div class="brand-name">YOUR BRAND</div>
-          <div class="brand-sub">Remote opportunities</div>
+          <h3>Customer Service Representative</h3>
+          <p>Email and chat support for customers.</p>
         </div>
-      </a>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
 
-      <nav class="nav" aria-label="Primary">
-        <a href="#jobs">Jobs</a>
-        <a href="#apply">Apply</a>
-        <a href="#how">How it works</a>
-        <a href="#faq">FAQ</a>
-      </nav>
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>Data Entry Specialist</h3>
+          <p>Input and maintain company data accurately.</p>
+        </div>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
 
-      <div class="nav-cta">
-        <button class="btn btn-outline" type="button" onclick="scrollToId('apply')">Post a job</button>
-        <button class="btn btn-solid" type="button" onclick="scrollToId('apply')">Apply now</button>
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>AI Automation Specialist</h3>
+          <p>Build and manage AI-driven workflows.</p>
+        </div>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>Digital Analyst</h3>
+          <p>Analyze campaigns and website performance.</p>
+        </div>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>Virtual Assistant</h3>
+          <p>Support teams with administrative tasks.</p>
+        </div>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>Social Media Manager</h3>
+          <p>Create and manage social media content.</p>
+        </div>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>Online Chat Support Agent</h3>
+          <p>Assist customers in real time.</p>
+        </div>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>Content Writer</h3>
+          <p>Write blogs and marketing content.</p>
+        </div>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>Remote Sales Representative</h3>
+          <p>Engage leads and close deals.</p>
+        </div>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-top">
+        <div>
+          <h3>E-commerce Listing Specialist</h3>
+          <p>Manage product listings and descriptions.</p>
+        </div>
+        <span class="tag">Remote</span>
       </div>
     </div>
   </div>
-</div>
 
-<section class="hero" id="top">
-  <div class="container">
-    <div class="hero-card">
-      <h1>Remote Job Opportunities</h1>
-      <p>Work from anywhere. Flexible hours. Competitive pay. Browse roles and apply in minutes.</p>
-
-      <div class="search-row" role="search" aria-label="Job search">
-        <input id="q" type="text" placeholder="Search roles (eg customer support, data entry)" />
-        <select id="loc">
-          <option value="">Remote</option>
-          <option value="Worldwide">Worldwide</option>
-          <option value="US">United States</option>
-          <option value="EU">Europe</option>
-          <option value="UK">United Kingdom</option>
-          <option value="CA">Canada</option>
-        </select>
-        <button type="button" onclick="filterJobs()">Search</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<main class="main">
-  <div class="container">
-
-    <div class="grid">
-      <section>
-        <h2 class="section-title" id="jobs">Open Positions</h2>
-
-        <div class="jobs" id="jobsList">
-
-          <article class="job-card" data-title="Customer Service Representative" data-tags="customer support chat email">
-            <div class="job-top">
-              <div>
-                <div class="job-title">Customer Service Representative</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Full time</span>
-                  <span class="badge">Chat and email</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Email and chat support for customers. Handle inquiries, resolve issues, and keep satisfaction high.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('Customer Service Representative')">Apply</button>
-              <button class="small-btn" type="button" onclick="scrollToId('how')">How it works</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="Data Entry Specialist" data-tags="data entry excel admin">
-            <div class="job-top">
-              <div>
-                <div class="job-title">Data Entry Specialist</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Flexible</span>
-                  <span class="badge">Accuracy focused</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Input and maintain company data accurately. Review records, correct errors, and keep documentation organized.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('Data Entry Specialist')">Apply</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="AI Automation Specialist" data-tags="automation ai zapier workflows">
-            <div class="job-top">
-              <div>
-                <div class="job-title">AI Automation Specialist</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Project based</span>
-                  <span class="badge">Automation</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Build and manage AI driven workflows. Improve productivity through integrations and automated processes.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('AI Automation Specialist')">Apply</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="Digital Analyst" data-tags="analytics tracking reporting">
-            <div class="job-top">
-              <div>
-                <div class="job-title">Digital Analyst</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Full time</span>
-                  <span class="badge">Reporting</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Analyze campaigns and website performance. Create dashboards, spot trends, and share insights.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('Digital Analyst')">Apply</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="Virtual Assistant" data-tags="assistant admin scheduling">
-            <div class="job-top">
-              <div>
-                <div class="job-title">Virtual Assistant</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Flexible</span>
-                  <span class="badge">Admin support</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Support teams with administrative tasks. Scheduling, inbox support, research, and documentation.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('Virtual Assistant')">Apply</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="Social Media Manager" data-tags="social media content">
-            <div class="job-top">
-              <div>
-                <div class="job-title">Social Media Manager</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Part time</span>
-                  <span class="badge">Content</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Create and manage social media content. Plan calendars, write posts, and grow engagement.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('Social Media Manager')">Apply</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="Online Chat Support Agent" data-tags="chat support">
-            <div class="job-top">
-              <div>
-                <div class="job-title">Online Chat Support Agent</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Shift based</span>
-                  <span class="badge">Live chat</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Assist customers in real time. Provide fast replies, troubleshoot, and escalate when needed.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('Online Chat Support Agent')">Apply</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="Content Writer" data-tags="writer blog marketing">
-            <div class="job-top">
-              <div>
-                <div class="job-title">Content Writer</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Contract</span>
-                  <span class="badge">Writing</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Write blogs and marketing content. Research topics, write clearly, and follow brand voice.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('Content Writer')">Apply</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="Remote Sales Representative" data-tags="sales closing leads">
-            <div class="job-top">
-              <div>
-                <div class="job-title">Remote Sales Representative</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Commission</span>
-                  <span class="badge">Outbound</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Engage leads and close deals. Follow up, qualify prospects, and manage your pipeline.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('Remote Sales Representative')">Apply</button>
-            </div>
-          </article>
-
-          <article class="job-card" data-title="E-commerce Listing Specialist" data-tags="ecommerce listings product">
-            <div class="job-top">
-              <div>
-                <div class="job-title">E commerce Listing Specialist</div>
-                <div class="job-meta">
-                  <span class="badge">Remote</span>
-                  <span class="badge">Full time</span>
-                  <span class="badge">Listings</span>
-                </div>
-              </div>
-            </div>
-            <div class="job-desc">Manage product listings and descriptions. Optimize titles, images, and attributes across platforms.</div>
-            <div class="job-actions">
-              <button class="small-btn primary" type="button" onclick="applyFor('E-commerce Listing Specialist')">Apply</button>
-            </div>
-          </article>
-
-        </div>
-      </section>
-
-      <aside class="side">
-        <div class="panel" id="how">
-          <h3>How it works</h3>
-          <ul>
-            <li>Choose a position</li>
-            <li>Fill your details</li>
-            <li>Upload your resume PDF or DOC</li>
-            <li>We review and contact shortlisted applicants</li>
-          </ul>
-        </div>
-
-        <div class="panel" id="faq">
-          <h3>FAQ</h3>
-          <p><strong>Do I get a confirmation?</strong> Your submission will appear in Netlify Forms and you can enable email notifications.</p>
-          <p style="margin-top:8px;"><strong>Why is the resume shown as a link in Netlify?</strong> Netlify stores uploads as secure file URLs. That is normal.</p>
-        </div>
-      </aside>
-    </div>
-
-    <section class="apply-section" id="apply">
+  <div class="apply-section" id="apply">
+    <div class="apply-head">
       <h2>Apply Now</h2>
-      <div class="note">Complete the form and upload your resume. Supported: PDF, DOC, DOCX.</div>
+      <small>Fast review. No spam.</small>
+    </div>
 
-      <form
-        name="job-application"
-        method="POST"
-        enctype="multipart/form-data"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
-        action="/thanks.html"
-      >
-        <input type="hidden" name="form-name" value="job-application">
+    <!-- NETLIFY FORM (attachments enabled) -->
+    <form
+      name="job-application"
+      method="POST"
+      enctype="multipart/form-data"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      action="/thanks.html"
+    >
+      <input type="hidden" name="form-name" value="job-application" />
 
-        <p hidden>
-          <label>Do not fill this out: <input name="bot-field"></label>
-        </p>
+      <p hidden>
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
 
-        <input type="text" name="fullName" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email Address" required>
-        <input type="tel" name="phone" placeholder="Phone Number" required>
+      <div class="grid-2">
+        <input type="text" name="fullName" placeholder="Full Name" required />
+        <input type="email" name="email" placeholder="Email Address" required />
+      </div>
 
-        <select name="position" id="positionSelect" required>
+      <div class="grid-2">
+        <input type="tel" name="phone" placeholder="Phone Number" required />
+        <select name="position" required>
           <option value="">Select Position</option>
           <option>Customer Service Representative</option>
           <option>Data Entry Specialist</option>
@@ -648,64 +605,31 @@ footer{
           <option>Remote Sales Representative</option>
           <option>E-commerce Listing Specialist</option>
         </select>
+      </div>
 
-        <textarea name="message" placeholder="Short Message (Optional)"></textarea>
+      <textarea name="message" placeholder="Short Message (Optional)"></textarea>
 
-        <label for="resume">Upload Resume (PDF or DOC)</label>
-        <input id="resume" type="file" name="resume" accept=".pdf,.doc,.docx" required>
-        <div class="small-note">If upload fails, try a smaller file. Netlify limits can vary by plan.</div>
+      <div class="file-wrap">
+        <label>Upload Resume (PDF or DOC)</label>
+        <div class="hint">Accepted: .pdf, .doc, .docx</div>
+        <input type="file" name="file" accept=".pdf,.doc,.docx" required />
+      </div>
 
-        <button class="btn btn-solid" type="submit" style="width:100%;padding:14px;border-radius:12px;">Submit Application</button>
-      </form>
-    </section>
-
+      <button type="submit">Submit Application</button>
+    </form>
   </div>
-</main>
+
+</div>
 
 <footer>
   © 2026 Remote Job Opportunities. All rights reserved.
+  <div class="footer-line">Replace the RJ logo placeholder with your logo image path in the header.</div>
 </footer>
 
-<!-- Netlify detection helper: include ALL fields -->
-<form name="job-application" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="job-application">
-  <input name="bot-field">
-  <input type="text" name="fullName">
-  <input type="email" name="email">
-  <input type="tel" name="phone">
-  <select name="position">
-    <option>Customer Service Representative</option>
-  </select>
-  <textarea name="message"></textarea>
-  <input type="file" name="resume">
+<!-- Netlify detection helper (keeps the form visible in Netlify Forms always) -->
+<form name="job-application" method="POST" data-netlify="true" hidden>
+  <input type="hidden" name="form-name" value="job-application" />
 </form>
-
-<script>
-function scrollToId(id){
-  const el = document.getElementById(id);
-  if(!el) return;
-  el.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-function applyFor(position){
-  const select = document.getElementById('positionSelect');
-  if(select){
-    select.value = position;
-  }
-  scrollToId('apply');
-}
-
-function filterJobs(){
-  const q = (document.getElementById('q').value || '').toLowerCase().trim();
-  const cards = document.querySelectorAll('#jobsList .job-card');
-  cards.forEach(card => {
-    const title = (card.getAttribute('data-title') || '').toLowerCase();
-    const tags = (card.getAttribute('data-tags') || '').toLowerCase();
-    const show = !q || title.includes(q) || tags.includes(q);
-    card.style.display = show ? '' : 'none';
-  });
-}
-</script>
 
 </body>
 </html>
