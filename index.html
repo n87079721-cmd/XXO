@@ -130,32 +130,6 @@ button:hover {
   background: #089c39;
 }
 
-button:disabled {
-  opacity: 0.75;
-  cursor: not-allowed;
-}
-
-.status {
-  display: none;
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.status.success {
-  display: block;
-  background: #ecfdf5;
-  border: 1px solid #10b981;
-  color: #065f46;
-}
-
-.status.error {
-  display: block;
-  background: #fef2f2;
-  border: 1px solid #ef4444;
-  color: #7f1d1d;
-}
-
 footer {
   text-align: center;
   padding: 30px;
@@ -193,22 +167,20 @@ footer {
   <div class="apply-section">
     <h2>Apply Now</h2>
 
-    <div id="statusBox" class="status"></div>
-
-    <!-- Netlify Forms enabled -->
-    <form id="jobForm"
-          name="job-application"
-          method="POST"
-          enctype="multipart/form-data"
-          data-netlify="true"
-          netlify-honeypot="bot-field">
-
-      <!-- Required hidden input for Netlify -->
+    <!-- NETLIFY FORMS: no action needed -->
+    <form
+      name="job-application"
+      method="POST"
+      enctype="multipart/form-data"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+    >
+      <!-- Required hidden input -->
       <input type="hidden" name="form-name" value="job-application">
 
-      <!-- Honeypot field (hidden from real users) -->
+      <!-- Honeypot (spam protection) -->
       <p style="display:none;">
-        <label>Don’t fill this out: <input name="bot-field" /></label>
+        <label>Don’t fill this out: <input name="bot-field"></label>
       </p>
 
       <input type="text" name="fullName" placeholder="Full Name" required>
@@ -231,10 +203,10 @@ footer {
 
       <textarea name="message" placeholder="Short Message (Optional)"></textarea>
 
-      <!-- File upload (Netlify will store and attach to submission) -->
+      <!-- File upload (Netlify will store it with the submission) -->
       <input type="file" name="resume" accept=".pdf,.doc,.docx,.txt" required>
 
-      <button id="submitBtn" type="submit">Submit Application</button>
+      <button type="submit">Submit Application</button>
     </form>
   </div>
 
@@ -243,47 +215,6 @@ footer {
 <footer>
   © 2026 Remote Job Opportunities. All rights reserved.
 </footer>
-
-<script>
-const form = document.getElementById("jobForm");
-const statusBox = document.getElementById("statusBox");
-const submitBtn = document.getElementById("submitBtn");
-
-function showStatus(type, msg) {
-  statusBox.className = "status " + type;
-  statusBox.textContent = msg;
-}
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  statusBox.style.display = "none";
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting...";
-
-  try {
-    const formData = new FormData(form);
-
-    const res = await fetch("/", {
-      method: "POST",
-      body: formData
-    });
-
-    if (res.ok) {
-      showStatus("success", "Application submitted successfully.");
-      form.reset();
-    } else {
-      showStatus("error", "Submission failed. Please try again.");
-    }
-  } catch (err) {
-    console.log(err);
-    showStatus("error", "Network error. Please try again.");
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit Application";
-  }
-});
-</script>
 
 </body>
 </html>
