@@ -8,135 +8,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: #f3f4f6;
-  color: #1f2937;
-}
-
-header {
-  background: #0caa41;
-  padding: 20px 40px;
-  color: white;
-}
-
-header h1 {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-header p {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.container {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-.section-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.jobs {
-  display: grid;
-  gap: 16px;
-}
-
-.job-card {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  border-left: 5px solid #0caa41;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  transition: all 0.2s ease;
-}
-
-.job-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-}
-
-.job-card h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.job-card p {
-  font-size: 14px;
-  color: #4b5563;
-}
-
-.apply-section {
-  background: white;
-  padding: 30px;
-  margin-top: 50px;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-}
-
-.apply-section h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-form {
-  display: grid;
-  gap: 16px;
-}
-
-input, select, textarea {
-  padding: 14px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-  transition: border 0.2s ease;
-}
-
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border: 1px solid #0caa41;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-button {
-  background: #0caa41;
-  color: white;
-  padding: 14px;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-button:hover {
-  background: #089c39;
-}
-
-footer {
-  text-align: center;
-  padding: 30px;
-  margin-top: 60px;
-  font-size: 13px;
-  color: #6b7280;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#f3f4f6;color:#1f2937;}
+header{background:#0caa41;padding:20px 40px;color:#fff;}
+header h1{font-size:24px;font-weight:700;}
+header p{font-size:14px;opacity:0.9;}
+.container{max-width:1100px;margin:40px auto;padding:0 20px;}
+.section-title{font-size:22px;font-weight:700;margin-bottom:20px;}
+.jobs{display:grid;gap:16px;}
+.job-card{background:#fff;padding:20px;border-radius:8px;border-left:5px solid #0caa41;box-shadow:0 2px 6px rgba(0,0,0,0.05);transition:all 0.2s ease;}
+.job-card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(0,0,0,0.08);}
+.job-card h3{font-size:16px;font-weight:600;margin-bottom:8px;}
+.job-card p{font-size:14px;color:#4b5563;}
+.apply-section{background:#fff;padding:30px;margin-top:50px;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.06);}
+.apply-section h2{font-size:20px;margin-bottom:20px;}
+form{display:grid;gap:16px;}
+input,select,textarea{padding:14px;border-radius:6px;border:1px solid #d1d5db;font-size:14px;transition:border 0.2s ease;}
+input:focus,select:focus,textarea:focus{outline:none;border:1px solid #0caa41;}
+textarea{resize:vertical;min-height:100px;}
+button{background:#0caa41;color:#fff;padding:14px;border:none;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s ease;}
+button:hover{background:#089c39;}
+footer{text-align:center;padding:30px;margin-top:60px;font-size:13px;color:#6b7280;}
+.small-note{font-size:12px;color:#6b7280;margin-top:-8px;}
 </style>
 </head>
 
@@ -167,7 +60,6 @@ footer {
   <div class="apply-section">
     <h2>Apply Now</h2>
 
-    <!-- NETLIFY FORM (attachments enabled) -->
     <form
       name="job-application"
       method="POST"
@@ -176,15 +68,13 @@ footer {
       netlify-honeypot="bot-field"
       action="/thanks.html"
     >
-      <!-- Required hidden input -->
       <input type="hidden" name="form-name" value="job-application">
 
-      <!-- Honeypot (spam protection) -->
+      <!-- Honeypot must match netlify-honeypot exactly -->
       <p hidden>
         <label>Don’t fill this out: <input name="bot-field"></label>
       </p>
 
-      <!-- Details fields (will show in Netlify submission) -->
       <input type="text" name="fullName" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="tel" name="phone" placeholder="Phone Number" required>
@@ -205,9 +95,9 @@ footer {
 
       <textarea name="message" placeholder="Short Message (Optional)"></textarea>
 
-      <!-- Attachment (this will appear in Netlify as an Attachment) -->
-      <label>Upload Resume (PDF or DOC)</label>
-      <input type="file" name="file" accept=".pdf,.doc,.docx" required>
+      <label for="resume">Upload Resume (PDF or DOC)</label>
+      <input id="resume" type="file" name="resume" accept=".pdf,.doc,.docx" required>
+      <div class="small-note">Max file size depends on your Netlify plan. If upload fails, try a smaller file.</div>
 
       <button type="submit">Submit Application</button>
     </form>
@@ -219,9 +109,18 @@ footer {
   © 2026 Remote Job Opportunities. All rights reserved.
 </footer>
 
-<!-- Netlify detection helper (keeps the form visible in Netlify Forms always) -->
-<form name="job-application" method="POST" data-netlify="true" hidden>
+<!-- Optional: keep Netlify form detection stable and include ALL fields -->
+<form name="job-application" data-netlify="true" netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="job-application">
+  <input name="bot-field">
+  <input type="text" name="fullName">
+  <input type="email" name="email">
+  <input type="tel" name="phone">
+  <select name="position">
+    <option>Customer Service Representative</option>
+  </select>
+  <textarea name="message"></textarea>
+  <input type="file" name="resume">
 </form>
 
 </body>
