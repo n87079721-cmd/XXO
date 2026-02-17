@@ -5,6 +5,7 @@
 <title>Remote Job Opportunities</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -188,6 +189,10 @@ footer {
 
             <textarea name="message" placeholder="Short Message (Optional)"></textarea>
 
+            <!-- File upload input for resumes or other documents -->
+            <!-- The accept attribute limits the file types to common resume formats -->
+            <input type="file" name="resume" accept=".pdf,.doc,.docx,.txt" required>
+
             <button type="submit">Submit Application</button>
         </form>
     </div>
@@ -198,21 +203,27 @@ footer {
     © 2026 Remote Job Opportunities. All rights reserved.
 </footer>
 
+<!-- Firebase JS SDKs -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+// Import Firebase Storage functions for file uploads
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBzAmfkNZ5YLxShLoNlUECpWelzkqQlkpA",
   authDomain: "remote-job-site-1.firebaseapp.com",
   projectId: "remote-job-site-1",
-  storageBucket: "remote-job-site-1.firebasestorage.app",
+  storageBucket: "remote-job-site-1.appspot.com", // Typical bucket format is projectId.appspot.com
   messagingSenderId: "164672828795",
   appId: "1:164672828795:web:a734258d7af76a012579de"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 const form = document.getElementById("jobForm");
 
@@ -226,21 +237,36 @@ form.addEventListener("submit", async (e) => {
   const phone = formData.get("phone");
   const position = formData.get("position");
   const message = formData.get("message");
+  const resumeFile = formData.get("resume");
 
   try {
+    let resumeURL = null;
+    // Only attempt to upload if a file was provided
+    if (resumeFile && resumeFile.size > 0) {
+      // Create a unique path for each upload using timestamp and original file name
+      const filePath = `resumes/${Date.now()}_${resumeFile.name}`;
+      const storageRef = ref(storage, filePath);
+      // Upload the file to Cloud Storage
+      await uploadBytes(storageRef, resumeFile);
+      // Retrieve the public download URL
+      resumeURL = await getDownloadURL(storageRef);
+    }
+
+    // Save application data, including the resume URL, into Firestore
     await addDoc(collection(db, "applications"), {
       fullName,
       email,
       phone,
       position,
       message,
+      resumeURL,
       createdAt: new Date()
     });
 
     alert("Application submitted successfully!");
     form.reset();
   } catch (error) {
-    alert("Error submitting application.");
+    alert("Error submitting application. Please try again.");
     console.error(error);
   }
 });
