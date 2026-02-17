@@ -101,12 +101,6 @@ input, select, textarea {
   border-radius: 6px;
   border: 1px solid #d1d5db;
   font-size: 14px;
-  transition: border 0.2s ease;
-}
-
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border: 1px solid #0caa41;
 }
 
 textarea {
@@ -123,7 +117,6 @@ button {
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 button:hover {
@@ -167,15 +160,16 @@ footer {
   <div class="apply-section">
     <h2>Apply Now</h2>
 
-    <!-- No-redirect (no-JS) submission using hidden iframe -->
+    <!-- Hidden iframe prevents redirect -->
     <iframe name="hidden_iframe" style="display:none;"></iframe>
 
-    <form id="jobForm"
-          action="https://formspree.io/f/xlgwnzgl"
-          method="POST"
-          enctype="multipart/form-data"
-          target="hidden_iframe">
-
+    <form
+      id="jobForm"
+      action="https://formspree.io/f/xlgwnzgl"
+      method="POST"
+      enctype="multipart/form-data"
+      target="hidden_iframe"
+    >
       <input type="text" name="fullName" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="tel" name="phone" placeholder="Phone Number" required>
@@ -196,12 +190,12 @@ footer {
 
       <textarea name="message" placeholder="Short Message (Optional)"></textarea>
 
-      <!-- IMPORTANT: Formspree file uploads need a name field (resume is fine) -->
       <input type="file" name="resume" accept=".pdf,.doc,.docx,.txt" required>
 
-      <!-- Helpful metadata -->
-      <input type="hidden" name="_subject" value="New Job Application">
-      <input type="hidden" name="_format" value="plain">
+      <!-- Email configuration -->
+      <input type="hidden" name="_subject" value="New Remote Job Application">
+      <input type="hidden" name="_cc" value="xxx39446@gmail.com">
+      <input type="hidden" name="_replyto" value="%email">
 
       <button type="submit">Submit Application</button>
     </form>
@@ -213,15 +207,12 @@ footer {
   © 2026 Remote Job Opportunities. All rights reserved.
 </footer>
 
-<!-- Optional: show a success message without redirect -->
 <script>
   const form = document.getElementById("jobForm");
 
   form.addEventListener("submit", () => {
-    // Because this uses an iframe, we don't get a reliable server response here.
-    // We show a friendly message and clear the form after a moment.
     setTimeout(() => {
-      alert("Submitted! If this is your first time, check your email to confirm Formspree.");
+      alert("Application submitted successfully. If this is your first submission, check your email to confirm Formspree.");
       form.reset();
     }, 600);
   });
