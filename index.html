@@ -8,7 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: 'Inter', sans-serif;
@@ -22,8 +26,15 @@ header {
   color: white;
 }
 
-header h1 { font-size: 24px; font-weight: 700; }
-header p { font-size: 14px; opacity: 0.9; }
+header h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+header p {
+  font-size: 14px;
+  opacity: 0.9;
+}
 
 .container {
   max-width: 1100px;
@@ -37,7 +48,10 @@ header p { font-size: 14px; opacity: 0.9; }
   margin-bottom: 20px;
 }
 
-.jobs { display: grid; gap: 16px; }
+.jobs {
+  display: grid;
+  gap: 16px;
+}
 
 .job-card {
   background: white;
@@ -59,7 +73,10 @@ header p { font-size: 14px; opacity: 0.9; }
   margin-bottom: 8px;
 }
 
-.job-card p { font-size: 14px; color: #4b5563; }
+.job-card p {
+  font-size: 14px;
+  color: #4b5563;
+}
 
 .apply-section {
   background: white;
@@ -71,10 +88,13 @@ header p { font-size: 14px; opacity: 0.9; }
 
 .apply-section h2 {
   font-size: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-form { display: grid; gap: 16px; }
+form {
+  display: grid;
+  gap: 16px;
+}
 
 input, select, textarea {
   padding: 14px;
@@ -89,7 +109,10 @@ input:focus, select:focus, textarea:focus {
   border: 1px solid #0caa41;
 }
 
-textarea { resize: vertical; min-height: 100px; }
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
 
 button {
   background: #0caa41;
@@ -103,8 +126,14 @@ button {
   transition: background 0.2s ease;
 }
 
-button:hover { background: #089c39; }
-button:disabled { opacity: 0.7; cursor: not-allowed; }
+button:hover {
+  background: #089c39;
+}
+
+button:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
 
 .status {
   display: none;
@@ -166,13 +195,24 @@ footer {
 
     <div id="statusBox" class="status"></div>
 
+    <!-- Netlify Forms enabled -->
     <form id="jobForm"
-          action="https://formspree.io/f/xlgwnzgl"
+          name="job-application"
           method="POST"
-          enctype="multipart/form-data">
+          enctype="multipart/form-data"
+          data-netlify="true"
+          netlify-honeypot="bot-field">
+
+      <!-- Required hidden input for Netlify -->
+      <input type="hidden" name="form-name" value="job-application">
+
+      <!-- Honeypot field (hidden from real users) -->
+      <p style="display:none;">
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
 
       <input type="text" name="fullName" placeholder="Full Name" required>
-      <input type="email" id="emailField" name="email" placeholder="Email Address" required>
+      <input type="email" name="email" placeholder="Email Address" required>
       <input type="tel" name="phone" placeholder="Phone Number" required>
 
       <select name="position" required>
@@ -191,10 +231,8 @@ footer {
 
       <textarea name="message" placeholder="Short Message (Optional)"></textarea>
 
+      <!-- File upload (Netlify will store and attach to submission) -->
       <input type="file" name="resume" accept=".pdf,.doc,.docx,.txt" required>
-
-      <input type="hidden" name="_subject" value="New Remote Job Application">
-      <input type="hidden" id="_replyto" name="_replyto" value="">
 
       <button id="submitBtn" type="submit">Submit Application</button>
     </form>
@@ -210,8 +248,6 @@ footer {
 const form = document.getElementById("jobForm");
 const statusBox = document.getElementById("statusBox");
 const submitBtn = document.getElementById("submitBtn");
-const emailField = document.getElementById("emailField");
-const replyTo = document.getElementById("_replyto");
 
 function showStatus(type, msg) {
   statusBox.className = "status " + type;
@@ -225,30 +261,23 @@ form.addEventListener("submit", async (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Submitting...";
 
-  replyTo.value = emailField.value;
-
-  const formData = new FormData(form);
-
   try {
-    const res = await fetch(form.action, {
+    const formData = new FormData(form);
+
+    const res = await fetch("/", {
       method: "POST",
-      body: formData,
-      headers: { "Accept": "application/json" }
+      body: formData
     });
 
-    const data = await res.json().catch(() => ({}));
-
     if (res.ok) {
-      showStatus("success", "Submitted successfully. Check your email to confirm Formspree if this is your first time.");
+      showStatus("success", "Application submitted successfully.");
       form.reset();
     } else {
-      const msg = data.error || "Submission failed. Open Formspree Settings and verify the form email, then try again.";
-      showStatus("error", msg);
-      console.log("Formspree error:", data);
+      showStatus("error", "Submission failed. Please try again.");
     }
   } catch (err) {
-    showStatus("error", "Network error. Please try again.");
     console.log(err);
+    showStatus("error", "Network error. Please try again.");
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = "Submit Application";
