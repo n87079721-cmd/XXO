@@ -39,6 +39,35 @@
       color:var(--ink);
       line-height:1.5;
     }
+    
+    .phone-wrap{
+  display:flex;
+  align-items:stretch;
+  gap:0;
+}
+
+.phone-prefix{
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+  border:1px solid #d1d5db;
+  border-right:none;
+  border-radius:10px 0 0 10px;
+  background:#f8fafc;
+  font-weight:800;
+  color:#0f172a;
+  font-size:14px;
+  white-space:nowrap;
+}
+
+.phone-wrap input{
+  border-radius:0 10px 10px 0;
+  width:100%;
+}
+
+.phone-wrap input:focus{
+  outline:none;
+}
 
     header{
       background: linear-gradient(135deg, #00A264, #0a8f5a);
@@ -545,7 +574,18 @@
       </div>
 
       <div class="grid-2">
-        <input type="tel" name="phone" placeholder="Phone Number" required />
+        <div class="phone-wrap">
+  <span class="phone-prefix">+1</span>
+  <input
+    type="tel"
+    name="phone"
+    inputmode="numeric"
+    autocomplete="tel-national"
+    placeholder="(555) 555-5555"
+    pattern="[0-9()\-\s]{7,20}"
+    required
+  />
+</div>
         <select id="positionSelect" name="position" required>
           <option value="">Select Position</option>
           <option>Customer Service Representative</option>
