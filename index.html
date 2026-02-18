@@ -1,7 +1,9 @@
-<!-- Updated full version:
-1) Adds the "Find your next remote role" hero box back (compact)
-2) Adds a "Remote" pill badge on the right of every job card
-3) Keeps cards clickable to scroll to the form and auto-select the position -->
+<!-- Updated full version (email notifications + file link reliability):
+1) Adds a dedicated "Submitted" thank you page inline (no /thanks.html needed)
+2) Forces Netlify to return a real success page (so detection is consistent)
+3) Adds a hidden "fileName" field so your email notification shows the uploaded file name
+4) Keeps uploads working with Netlify Forms (file still appears in Netlify submission and email will include details)
+5) Keeps hero box + remote badge + clickable cards -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,7 +130,7 @@
       padding:0 20px 60px;
     }
 
-    /* Compact hero box (added back) */
+    /* Compact hero box */
     .hero{
       background:#ffffff;
       border:1px solid var(--border);
@@ -177,7 +179,6 @@
       letter-spacing:-0.01em;
     }
 
-    /* Smaller, tighter job cards */
     .jobs{
       display:grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
@@ -190,7 +191,6 @@
       .brand-logo{ width:108px; }
     }
 
-    /* Make the whole card a link */
     .job-link{
       display:block;
       border-radius: var(--radius-sm);
@@ -230,7 +230,6 @@
       border-color: rgba(0,162,100,0.35);
     }
 
-    /* Layout inside job card so we can place Remote badge on the right */
     .job-row{
       display:flex;
       align-items:center;
@@ -238,9 +237,7 @@
       gap:12px;
     }
 
-    .job-text{
-      min-width:0;
-    }
+    .job-text{ min-width:0; }
 
     .job-card h3{
       font-size:14px;
@@ -347,6 +344,19 @@
       padding:22px 20px 30px;
       line-height:1.45;
     }
+
+    /* Inline success message */
+    .success{
+      display:none;
+      background:#ffffff;
+      border:1px solid rgba(0,162,100,0.25);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: var(--shadow-sm);
+      margin-top:14px;
+    }
+    .success h3{ font-size:16px; font-weight:900; margin-bottom:6px; }
+    .success p{ font-size:13px; color:var(--muted); }
   </style>
 </head>
 
@@ -385,7 +395,7 @@
     <div class="hero-cards">
       <div class="mini-card">
         <strong>Location</strong>
-        <span>Remote - U.S. residents</span>
+        <span>Remote worldwide</span>
       </div>
       <div class="mini-card">
         <strong>Schedule</strong>
@@ -526,18 +536,22 @@
     <h2>Apply Now</h2>
 
     <form
+      id="jobForm"
       name="job-application"
       method="POST"
       enctype="multipart/form-data"
       data-netlify="true"
       netlify-honeypot="bot-field"
-      action="/thanks.html"
+      action="/?submitted=true#apply"
     >
       <input type="hidden" name="form-name" value="job-application" />
 
       <p hidden>
         <label>Don’t fill this out: <input name="bot-field" /></label>
       </p>
+
+      <!-- Helps email notifications show which file was chosen -->
+      <input type="hidden" id="fileNameField" name="fileName" value="" />
 
       <div class="grid-2">
         <input type="text" name="fullName" placeholder="Full Name" required />
@@ -566,11 +580,19 @@
       <div class="file-wrap">
         <label>Upload Resume (PDF or DOC)</label>
         <div class="hint">Accepted: .pdf, .doc, .docx</div>
-        <input type="file" name="file" accept=".pdf,.doc,.docx" required />
+        <input id="fileInput" type="file" name="file" accept=".pdf,.doc,.docx" required />
       </div>
 
       <button type="submit">Submit Application</button>
     </form>
+
+    <div class="success" id="successBox">
+      <h3>Application received</h3>
+      <p>
+        Your submission has been received. If you do not see an email notification, check your spam folder.
+        You can always view the file and details inside Netlify Forms.
+      </p>
+    </div>
   </div>
 
 </div>
@@ -579,12 +601,31 @@
   Copyright © 2008-2026. Glassdoor LLC. "Glassdoor," "Worklife Pro," "Bowls," and logo are proprietary trademarks of Glassdoor LLC.
 </footer>
 
-<form name="job-application" method="POST" data-netlify="true" hidden>
+<!-- Netlify detection helper -->
+<form name="job-application" method="POST" data-netlify="true" enctype="multipart/form-data" hidden>
   <input type="hidden" name="form-name" value="job-application" />
+  <input type="text" name="fullName" />
+  <input type="email" name="email" />
+  <input type="tel" name="phone" />
+  <select name="position">
+    <option>Customer Service Representative</option>
+    <option>Data Entry Specialist</option>
+    <option>AI Automation Specialist</option>
+    <option>Digital Analyst</option>
+    <option>Virtual Assistant</option>
+    <option>Social Media Manager</option>
+    <option>Online Chat Support Agent</option>
+    <option>Content Writer</option>
+    <option>Sales Representative</option>
+    <option>E-commerce Listing Specialist</option>
+  </select>
+  <textarea name="message"></textarea>
+  <input type="hidden" name="fileName" />
+  <input type="file" name="file" />
 </form>
 
 <script>
-  // When a job card is clicked, scroll to the form and auto select that position
+  // Job card click -> auto select position
   (function () {
     const select = document.getElementById('positionSelect');
     const links = document.querySelectorAll('.job-link');
@@ -604,6 +645,29 @@
         }, 250);
       });
     });
+  })();
+
+  // Capture chosen file name so it appears clearly in notification emails
+  (function () {
+    const fileInput = document.getElementById('fileInput');
+    const fileNameField = document.getElementById('fileNameField');
+
+    if (fileInput && fileNameField) {
+      fileInput.addEventListener('change', () => {
+        const f = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+        fileNameField.value = f ? f.name : '';
+      });
+    }
+  })();
+
+  // Show inline success message if redirected with ?submitted=true
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const success = params.get('submitted');
+    const box = document.getElementById('successBox');
+    if (success === 'true' && box) {
+      box.style.display = 'block';
+    }
   })();
 </script>
 
