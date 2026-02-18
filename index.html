@@ -1,6 +1,7 @@
-<!-- Drop in this updated version of your page.
-It makes job cards smaller and makes each card clickable.
-Clicking any job scrolls to the form and pre selects the position. -->
+<!-- Updated full version:
+1) Adds the "Find your next remote role" hero box back (compact)
+2) Adds a "Remote" pill badge on the right of every job card
+3) Keeps cards clickable to scroll to the form and auto-select the position -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +29,7 @@ Clicking any job scrolls to the form and pre selects the position. -->
     }
 
     *{ margin:0; padding:0; box-sizing:border-box; }
+
     body{
       font-family:'Inter', sans-serif;
       background:
@@ -86,9 +88,18 @@ Clicking any job scrolls to the form and pre selects the position. -->
       letter-spacing:-0.02em;
       margin-bottom:2px;
     }
-    .brand-text p{ font-size:12.5px; opacity:0.92; }
 
-    .header-cta{ display:flex; gap:10px; align-items:center; }
+    .brand-text p{
+      font-size:12.5px;
+      opacity:0.92;
+    }
+
+    .header-cta{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
     .btn-header{
       display:inline-flex;
       align-items:center;
@@ -103,14 +114,61 @@ Clicking any job scrolls to the form and pre selects the position. -->
       cursor:pointer;
       box-shadow: 0 8px 16px rgba(0,0,0,0.10);
       transition: transform .15s ease, box-shadow .15s ease;
+      text-decoration:none;
     }
-    .btn-header:hover{ transform: translateY(-1px); box-shadow: 0 12px 22px rgba(0,0,0,0.14); }
+
+    .btn-header:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(0,0,0,0.14);
+    }
 
     .container{
       max-width:1100px;
       margin:20px auto 0;
       padding:0 20px 60px;
     }
+
+    /* Compact hero box (added back) */
+    .hero{
+      background:#ffffff;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom:16px;
+    }
+
+    .hero h2{
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-0.02em;
+      margin-bottom:6px;
+    }
+
+    .hero p{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
+
+    .hero-cards{
+      display:grid;
+      gap:8px;
+    }
+
+    .mini-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      box-shadow: 0 2px 10px rgba(2,6,23,0.05);
+    }
+
+    .mini-card strong{ font-size:13px; }
+    .mini-card span{ font-size:12px; color:var(--muted); }
 
     .section-title{
       font-size:18px;
@@ -125,6 +183,7 @@ Clicking any job scrolls to the form and pre selects the position. -->
       grid-template-columns: repeat(2, minmax(0,1fr));
       gap:12px;
     }
+
     @media (max-width: 780px){
       .jobs{ grid-template-columns: 1fr; }
       .header-cta{ display:none; }
@@ -142,22 +201,23 @@ Clicking any job scrolls to the form and pre selects the position. -->
 
     .job-card{
       background:var(--card);
-      padding:12px 14px;            /* reduced */
+      padding:12px 14px;
       border-radius: var(--radius-sm);
       border:1px solid var(--border);
-      border-left: 5px solid var(--brand); /* slightly smaller */
+      border-left: 5px solid var(--brand);
       box-shadow: var(--shadow-sm);
       transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
       position:relative;
       overflow:hidden;
-      min-height: 64px;             /* reduced */
+      min-height: 64px;
     }
 
     .job-card:before{
       content:"";
       position:absolute;
       inset:-60px -60px auto auto;
-      width:140px; height:140px;
+      width:140px;
+      height:140px;
       background: radial-gradient(circle at 30% 30%, rgba(0,162,100,0.18), transparent 60%);
       transform: rotate(20deg);
       pointer-events:none;
@@ -170,28 +230,53 @@ Clicking any job scrolls to the form and pre selects the position. -->
       border-color: rgba(0,162,100,0.35);
     }
 
+    /* Layout inside job card so we can place Remote badge on the right */
+    .job-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .job-text{
+      min-width:0;
+    }
+
     .job-card h3{
-      font-size:14px;               /* reduced */
+      font-size:14px;
       font-weight:900;
       margin:0 0 4px;
       letter-spacing:-0.01em;
       line-height:1.2;
     }
+
     .job-card p{
-      font-size:12.5px;             /* reduced */
+      font-size:12.5px;
       color:var(--muted);
       margin:0;
       line-height:1.25;
+    }
+
+    .badge-remote{
+      font-size:12px;
+      font-weight:800;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#e7f8f0;
+      color:#047857;
+      border:1px solid rgba(0,162,100,0.20);
+      white-space:nowrap;
+      flex-shrink:0;
     }
 
     .apply-section{
       background: rgba(255,255,255,0.95);
       border:1px solid var(--border);
       padding:22px;
-      margin-top:18px;              /* closer to jobs */
+      margin-top:18px;
       border-radius: var(--radius);
       box-shadow: var(--shadow-md);
-      scroll-margin-top: 92px;      /* so it aligns below sticky header */
+      scroll-margin-top: 92px;
     }
 
     .apply-section h2{
@@ -208,7 +293,10 @@ Clicking any job scrolls to the form and pre selects the position. -->
       grid-template-columns: 1fr 1fr;
       gap:12px;
     }
-    @media (max-width: 640px){ .grid-2{ grid-template-columns: 1fr; } }
+
+    @media (max-width: 640px){
+      .grid-2{ grid-template-columns: 1fr; }
+    }
 
     input, select, textarea{
       padding:13px 14px;
@@ -243,7 +331,11 @@ Clicking any job scrolls to the form and pre selects the position. -->
       transition: transform .16s ease, box-shadow .16s ease;
       box-shadow: 0 10px 20px rgba(0,162,100,0.22);
     }
-    button:hover{ transform: translateY(-1px); box-shadow: 0 14px 28px rgba(0,162,100,0.28); }
+
+    button:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(0,162,100,0.28);
+    }
 
     footer{
       background:#fff;
@@ -283,19 +375,151 @@ Clicking any job scrolls to the form and pre selects the position. -->
 
 <div class="container">
 
+  <section class="hero">
+    <h2>Find your next remote role</h2>
+    <p>
+      Browse open positions below and submit your application in minutes.
+      We review applications daily and reach out if there is a match.
+    </p>
+
+    <div class="hero-cards">
+      <div class="mini-card">
+        <strong>Location</strong>
+        <span>Remote worldwide</span>
+      </div>
+      <div class="mini-card">
+        <strong>Schedule</strong>
+        <span>Flexible hours</span>
+      </div>
+      <div class="mini-card">
+        <strong>Pay</strong>
+        <span>Competitive</span>
+      </div>
+    </div>
+  </section>
+
   <h2 class="section-title">Open Positions</h2>
 
   <div class="jobs">
-    <a class="job-link" href="#apply" data-position="Customer Service Representative"><div class="job-card"><h3>Customer Service Representative</h3><p>Email and chat support for customers.</p></div></a>
-    <a class="job-link" href="#apply" data-position="Data Entry Specialist"><div class="job-card"><h3>Data Entry Specialist</h3><p>Input and maintain company data accurately.</p></div></a>
-    <a class="job-link" href="#apply" data-position="AI Automation Specialist"><div class="job-card"><h3>AI Automation Specialist</h3><p>Build and manage AI-driven workflows.</p></div></a>
-    <a class="job-link" href="#apply" data-position="Digital Analyst"><div class="job-card"><h3>Digital Analyst</h3><p>Analyze campaigns and website performance.</p></div></a>
-    <a class="job-link" href="#apply" data-position="Virtual Assistant"><div class="job-card"><h3>Virtual Assistant</h3><p>Support teams with administrative tasks.</p></div></a>
-    <a class="job-link" href="#apply" data-position="Social Media Manager"><div class="job-card"><h3>Social Media Manager</h3><p>Create and manage social media content.</p></div></a>
-    <a class="job-link" href="#apply" data-position="Online Chat Support Agent"><div class="job-card"><h3>Online Chat Support Agent</h3><p>Assist customers in real time.</p></div></a>
-    <a class="job-link" href="#apply" data-position="Content Writer"><div class="job-card"><h3>Content Writer</h3><p>Write blogs and marketing content.</p></div></a>
-    <a class="job-link" href="#apply" data-position="Sales Representative"><div class="job-card"><h3>Sales Representative</h3><p>Engage leads and close deals.</p></div></a>
-    <a class="job-link" href="#apply" data-position="E-commerce Listing Specialist"><div class="job-card"><h3>E-commerce Listing Specialist</h3><p>Manage product listings and descriptions.</p></div></a>
+    <a class="job-link" href="#apply" data-position="Customer Service Representative">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>Customer Service Representative</h3>
+            <p>Email and chat support for customers.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="Data Entry Specialist">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>Data Entry Specialist</h3>
+            <p>Input and maintain company data accurately.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="AI Automation Specialist">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>AI Automation Specialist</h3>
+            <p>Build and manage AI-driven workflows.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="Digital Analyst">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>Digital Analyst</h3>
+            <p>Analyze campaigns and website performance.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="Virtual Assistant">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>Virtual Assistant</h3>
+            <p>Support teams with administrative tasks.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="Social Media Manager">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>Social Media Manager</h3>
+            <p>Create and manage social media content.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="Online Chat Support Agent">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>Online Chat Support Agent</h3>
+            <p>Assist customers in real time.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="Content Writer">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>Content Writer</h3>
+            <p>Write blogs and marketing content.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="Sales Representative">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>Sales Representative</h3>
+            <p>Engage leads and close deals.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="job-link" href="#apply" data-position="E-commerce Listing Specialist">
+      <div class="job-card">
+        <div class="job-row">
+          <div class="job-text">
+            <h3>E-commerce Listing Specialist</h3>
+            <p>Manage product listings and descriptions.</p>
+          </div>
+          <span class="badge-remote">Remote</span>
+        </div>
+      </div>
+    </a>
   </div>
 
   <div class="apply-section" id="apply">
@@ -370,12 +594,10 @@ Clicking any job scrolls to the form and pre selects the position. -->
         const position = link.getAttribute('data-position');
         if (!position || !select) return;
 
-        // Set select value by matching option text
         const opts = Array.from(select.options);
         const match = opts.find(o => (o.text || '').trim() === position);
         if (match) select.value = match.value || match.text;
 
-        // Optional: focus the first input after scroll
         setTimeout(() => {
           const first = document.querySelector('input[name="fullName"]');
           if (first) first.focus({ preventScroll: true });
